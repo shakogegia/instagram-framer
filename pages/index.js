@@ -1,4 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
+/* eslint-disable react/no-unescaped-entities */
 import { useCallback, useMemo, useState } from 'react'
 import * as htmlToImage from 'html-to-image';
 import { useDropzone } from 'react-dropzone'
