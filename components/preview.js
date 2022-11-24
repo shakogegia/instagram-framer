@@ -16,7 +16,7 @@ export default function Preview({ id, image, padding = 50, ratio = "4:5", object
     <div className='border-dashed border-2 inline-flex'>
       <div
         id={id}
-        className={classNames('bg-white')}
+        className={classNames('bg-white transition-all')}
         style={{
           padding: `${padding}px`,
           width: `${imageSize[0]}px`,
@@ -27,7 +27,7 @@ export default function Preview({ id, image, padding = 50, ratio = "4:5", object
           src={image}
           alt=""
           className={classNames(
-            "w-full h-full",
+            "w-full h-full transition-all",
             objectFit === "contain" && "object-contain",
             objectFit === "cover" && "object-cover"
           )}
