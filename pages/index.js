@@ -5,6 +5,7 @@ import * as htmlToImage from 'html-to-image';
 import { useDropzone } from 'react-dropzone'
 import classNames from "../utils/class-names";
 import { BsCloudDownload } from "react-icons/bs";
+import Head from 'next/head';
 
 const width = 1080/2
 
@@ -41,7 +42,10 @@ export default function Home() {
 
   return (
     <div>
-      <main className='container flex justify-center mx-auto p-20'>
+      <Head>
+        <title>Instagram Framer</title>
+      </Head>
+      <main className='container flex justify-center mx-auto p-16'>
         <div className='flex gap-20 mt-40'>
           <div>
             <div className='border-dashed border-2 inline-flex'>
@@ -101,7 +105,7 @@ function Dropzone({ onUpload }) {
       reader.readAsDataURL(file)
     })
 
-  }, [])
+  }, [onUpload])
 
   const { getRootProps, getInputProps } = useDropzone({ onDrop })
 
