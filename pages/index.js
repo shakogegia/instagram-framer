@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
 import Button from "../components/button";
 import Dropzone from "../components/dropzone";
@@ -40,7 +40,7 @@ export default function Home() {
     setSelectedIndex(selectedIndex + 1)
   }
 
-  const selectedImage = images[selectedIndex]
+  const selectedImage = useMemo(() => images[selectedIndex], [images, selectedIndex])
 
   return (
     <div>
@@ -65,7 +65,7 @@ export default function Home() {
           )}
         </div>
 
-        <div className='flex gap-20 mt-12'>
+        <div className='flex justify-center gap-20 mt-12'>
           {selectedImage && (
             <>
               <Preview
@@ -79,6 +79,9 @@ export default function Home() {
                 image={selectedImage.image}
                 id={selectedImage.id}
                 onChange={onSettingsChanged(selectedImage)}
+                padding={selectedImage.padding}
+                ratio={selectedImage.ratio}
+                objectFit={selectedImage.objectFit}
               />
             </>
           )}
