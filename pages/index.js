@@ -29,7 +29,7 @@ export default function Home() {
 
   const canGoLeft = selectedIndex > 0
   const canGoRight = selectedIndex < images.length - 1
-  
+
   function goLeft() {
     if (!canGoLeft) return
     setSelectedIndex(selectedIndex - 1)
@@ -47,15 +47,25 @@ export default function Home() {
       <Head>
         <title>Instagram Framer</title>
       </Head>
-      <main className='container flex justify-center mx-auto p-16'>
+      <main className='container flex flex-col justify-center mx-auto p-16'>
 
-        <div className='flex gap-20 mt-40'>
+        <div className='flex justify-center mt-20'>
           {images.length === 0 && (
             <div className='border-4 border-dashed w-[500px] h-[350px]'>
               <Dropzone onUpload={onUpload} />
             </div>
           )}
 
+          {images.length > 0 && (
+            <div className='flex items-center gap-4'>
+              <Button disabled={!canGoLeft} onClick={goLeft}><BsArrowLeft /></Button>
+              <p>{selectedIndex + 1}:{images.length}</p>
+              <Button disabled={!canGoRight} onClick={goRight}><BsArrowRight /></Button>
+            </div>
+          )}
+        </div>
+
+        <div className='flex gap-20 mt-12'>
           {selectedImage && (
             <>
               <Preview
@@ -65,20 +75,11 @@ export default function Home() {
                 ratio={selectedImage.ratio}
                 objectFit={selectedImage.objectFit}
               />
-                
-              <div className='flex flex-col gap-8'>
-                <div className='flex items-center gap-4'>
-                  <Button disabled={!canGoLeft} onClick={goLeft}><BsArrowLeft /></Button>
-                  <p>{selectedIndex+1}:{images.length}</p>
-                  <Button disabled={!canGoRight} onClick={goRight}><BsArrowRight /></Button>
-                </div>
-
-                <Settings
-                  image={selectedImage.image}
-                  id={selectedImage.id}
-                  onChange={onSettingsChanged(selectedImage)}
-                />
-              </div>
+              <Settings
+                image={selectedImage.image}
+                id={selectedImage.id}
+                onChange={onSettingsChanged(selectedImage)}
+              />
             </>
           )}
         </div>
