@@ -1,44 +1,46 @@
-/* eslint-disable @next/next/no-img-element */
-/* eslint-disable react/no-unescaped-entities */
-import { useCallback, useMemo, useState } from 'react'
-import * as htmlToImage from 'html-to-image';
-import { useDropzone } from 'react-dropzone'
-import classNames from "../utils/class-names";
-import { BsCloudDownload } from "react-icons/bs";
 import Head from 'next/head';
-
-const width = 1080/2
+import { useState } from 'react';
+import { BsArrowLeft, BsArrowRight } from "react-icons/bs";
+import Button from "../components/button";
+import Dropzone from "../components/dropzone";
+import Preview from "../components/preview";
+import Settings from "../components/settings";
 
 export default function Home() {
-  const [image, setImage] = useState(null)
-  const [padding, setPadding] = useState(10)
-  const [ratio, setRatio] = useState("1:1")
-  const [objectFit, setObjectFit] = useState("contain")
+  const [images, setImages] = useState([])
+  const [selectedIndex, setSelectedIndex] = useState(null)
 
-  const imageSize = useMemo(() => {
-    if (ratio === "1:1") return [width, width]
-    if (ratio === "4:5") return [width, width*5/4]
-    if (ratio === "16:9") return [width, width*9/16]
-  }, [ratio])
-
-  function onUpload(img) {
-    setImage(img)
+  function onUpload(_images) {
+    setImages(_images.map(image => ({
+      id: id(10),
+      padding: 50,
+      ratio: "4:5",
+      objectFit: "contain",
+      image,
+    })))
+    setSelectedIndex(0)
   }
 
-  function download() {
-    var node = document.getElementById('preview');
-
-    htmlToImage.toPng(node)
-      .then(function (dataUrl) {
-        const link = document.createElement("a");
-        link.href = dataUrl;
-        link.download = "filename";
-        link.click();
-      })
-      .catch(function (error) {
-        console.error('oops, something went wrong!', error);
-      });
+  function onSettingsChanged(image) {
+    return function (settings) {
+      setImages(images.map(_image => _image.id === image.id ? { ...image, ...settings } : _image))
+    }
   }
+
+  const canGoLeft = selectedIndex > 0
+  const canGoRight = selectedIndex < images.length - 1
+  
+  function goLeft() {
+    if (!canGoLeft) return
+    setSelectedIndex(selectedIndex - 1)
+  }
+
+  function goRight() {
+    if (!canGoRight) return
+    setSelectedIndex(selectedIndex + 1)
+  }
+
+  const selectedImage = images[selectedIndex]
 
   return (
     <div>
@@ -46,73 +48,51 @@ export default function Home() {
         <title>Instagram Framer</title>
       </Head>
       <main className='container flex justify-center mx-auto p-16'>
+
         <div className='flex gap-20 mt-40'>
-          <div>
-            <div className='border-dashed border-2 inline-flex'>
-              <div
-                id='preview'
-                className={classNames('bg-white')}
-                style={{
-                  padding: `${padding}px`,
-                  width: `${imageSize[0]}px`,
-                  height: `${imageSize[1]}px`,
-                }}
-              >
+          {images.length === 0 && (
+            <div className='border-4 border-dashed w-[500px] h-[350px]'>
+              <Dropzone onUpload={onUpload} />
+            </div>
+          )}
 
-                {!image && <Dropzone onUpload={onUpload} />}
-                {image && <img src={image} alt="" className={classNames("w-full h-full", objectFit === "contain" && "object-contain", objectFit === "cover" && "object-cover")} />}
+          {selectedImage && (
+            <>
+              <Preview
+                image={selectedImage.image}
+                id={selectedImage.id}
+                padding={selectedImage.padding}
+                ratio={selectedImage.ratio}
+                objectFit={selectedImage.objectFit}
+              />
+                
+              <div className='flex flex-col gap-8'>
+                <div className='flex items-center gap-4'>
+                  <Button disabled={!canGoLeft} onClick={goLeft}><BsArrowLeft /></Button>
+                  <p>{selectedIndex+1}:{images.length}</p>
+                  <Button disabled={!canGoRight} onClick={goRight}><BsArrowRight /></Button>
+                </div>
 
+                <Settings
+                  image={selectedImage.image}
+                  id={selectedImage.id}
+                  onChange={onSettingsChanged(selectedImage)}
+                />
               </div>
-            </div>
-          </div>
-
-          <div className='flex flex-col gap-8'>
-            <div className='flex gap-2'>
-              <button onClick={() => setRatio("1:1")} className={classNames('border-[1px] rounded-sm px-8 py-2 hover:bg-gray-50', ratio === "1:1" && "bg-gray-50")}>1:1</button>
-              <button onClick={() => setRatio("4:5")} className={classNames('border-[1px] rounded-sm px-8 py-2 hover:bg-gray-50', ratio === "4:5" && "bg-gray-50")}>4:5</button>
-              <button onClick={() => setRatio("16:9")} className={classNames('border-[1px] rounded-sm px-8 py-2 hover:bg-gray-50', ratio === "16:9" && "bg-gray-50")}>16:9</button>
-            </div>
-            <div className='flex gap-2'>
-              <button onClick={() => setObjectFit("contain")} className={classNames('border-[1px] rounded-sm px-8 py-2 hover:bg-gray-50', objectFit === "contain" && "bg-gray-50")}>Contain</button>
-              <button onClick={() => setObjectFit("cover")} className={classNames('border-[1px] rounded-sm px-8 py-2 hover:bg-gray-50', objectFit === "cover" && "bg-gray-50")}>Cover</button>
-            </div>
-            <div className='flex flex-col gap-2'>
-              <p>Padding: {padding}</p>
-              <input className='w-[200px]' type="range" min={0} max={100} defaultValue={padding} onChange={e => setPadding(e.target.value)} />
-            </div>
-
-            <div className='flex gap-2'>
-              <button onClick={download} className={classNames('flex items-center gap-4 border-[1px] rounded-sm px-8 py-2 hover:bg-gray-50')}>
-                <BsCloudDownload />
-                <p>Download</p>
-              </button>
-            </div>
-          </div>
+            </>
+          )}
         </div>
       </main>
     </div>
   )
 }
 
-function Dropzone({ onUpload }) {
-  const onDrop = useCallback((acceptedFiles) => {
-    acceptedFiles.forEach((file) => {
-      const reader = new FileReader()
-
-      reader.onabort = () => console.log('file reading was aborted')
-      reader.onerror = () => console.log('file reading has failed')
-      reader.onload = () => onUpload(reader.result)
-      reader.readAsDataURL(file)
-    })
-
-  }, [onUpload])
-
-  const { getRootProps, getInputProps } = useDropzone({ onDrop })
-
-  return (
-    <div className='w-full h-full inline-flex justify-center items-center' {...getRootProps()}>
-      <input {...getInputProps()} />
-      <p className='text-center'>Drag 'n' drop some files here, or click to select files</p>
-    </div>
-  )
+function id(length) {
+  var result = '';
+  var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  var charactersLength = characters.length;
+  for (var i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
 }
