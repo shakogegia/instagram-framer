@@ -6,7 +6,9 @@ export default function Select({ label, defaultValue, options, onChange }) {
     <div className="flex items-center justify-between">
       <Label>{label}</Label>
       <select
-        className={classnames('block text-sm')}
+        className={classnames(
+          'block text-sm dark:bg-transparent dark:text-white',
+        )}
         defaultValue={defaultValue}
         onChange={onChange}
       >
