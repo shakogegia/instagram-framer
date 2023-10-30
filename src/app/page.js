@@ -5,6 +5,7 @@ import Settings from '@/components/settings'
 import { useImages } from '@/providers/images-provider'
 import download from '@/utils/download'
 import classnames from 'classnames'
+import Head from 'next/head'
 import {
   LuBookmark,
   LuHeart,
@@ -18,6 +19,10 @@ export default function Home() {
 
   return (
     <main className="flex flex-col min-h-screen bg-white p-12">
+      <Head>
+        <title>Instagram Framer</title>
+      </Head>
+
       <div className="max-w-xl mx-auto w-full border-b pb-8 mb-8">
         <div className="flex flex-col gap-2 mx-auto text-center">
           <h1 className="font-fsp text-3xl font-light">Instagram Framer</h1>
