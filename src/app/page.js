@@ -104,7 +104,7 @@ export default function Home() {
         </div>
       </div>
 
-      <footer className="flex flex-col items-center gap-2 text-xs font-normal text-neutral-300 text-center mt-10">
+      <footer className="flex flex-col items-center gap-2 text-xs font-normal text-neutral-300 text-center mt-32">
         <p>
           © 2023 Instagram Framer. Made By{' '}
           <a
