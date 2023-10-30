@@ -105,7 +105,16 @@ export default function Home() {
       </div>
 
       <footer className="flex flex-col items-center gap-2 text-xs font-normal text-neutral-300 text-center mt-10">
-        <p>© 2023 Instagram Framer</p>
+        <p>
+          © 2023 Instagram Framer. Made By{' '}
+          <a
+            className="text-neutral-500"
+            href="https://twitter.com/ShalvaGegia"
+            target="_blank"
+          >
+            Gego
+          </a>
+        </p>
         <p>
           If you like this tool, please consider buying me a film. <br /> It
           will help me to keep this tool up and running.
