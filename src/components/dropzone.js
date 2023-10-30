@@ -67,7 +67,7 @@ export default function Dropzone() {
               fill="currentColor"
             ></path>
           </svg>
-          <p className="text-lg font-normal">Drag photos and videos here</p>
+          <p className="text-lg font-normal">Drag photos here</p>
           <button className="rounded-lg px-4 py-1.5 text-sm font-semibold text-white bg-[#0095f6] hover:bg-[#1a77f2]">
             Select from computer
           </button>
