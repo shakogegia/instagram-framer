@@ -73,3 +73,10 @@ padding: 0;
   cursor: pointer; /* Cursor on hover */
   border-radius: 50%;
 }
+
+
+@media (prefers-color-scheme: dark) {
+  .slider::-webkit-slider-thumb {
+    background: #fff; /* Green background */
+  }
+}

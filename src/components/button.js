@@ -11,8 +11,8 @@ export default function Button({
     <button
       onClick={onClick}
       className={classnames(
-        'inline-flex items-center px-4 py-1 text-sm rounded-md transition-all hover:bg-neutral-200',
-        isActive && 'bg-neutral-100',
+        'inline-flex items-center px-4 py-1 text-sm rounded-md transition-all hover:bg-neutral-200 dark:hover:text-black',
+        isActive && 'bg-neutral-100 dark:text-black',
         className,
       )}
       {...props}

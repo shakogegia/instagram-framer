@@ -18,12 +18,12 @@ export default function Home() {
   const { images, selectedImage } = useImages()
 
   return (
-    <main className="flex flex-col min-h-screen bg-white p-12">
+    <main className="flex flex-col min-h-screen bg-white dark:bg-black p-12">
       <Head>
         <title>Instagram Framer</title>
       </Head>
 
-      <div className="max-w-xl mx-auto w-full border-b pb-8 mb-8">
+      <div className="max-w-xl mx-auto w-full border-b dark:border-neutral-700 pb-8 mb-8">
         <div className="flex flex-col gap-2 mx-auto text-center">
           <h1 className="font-fsp text-3xl font-light">Instagram Framer</h1>
           <div>
@@ -38,7 +38,7 @@ export default function Home() {
       </div>
 
       <div className={classnames('container flex justify-center mx-auto')}>
-        <div className="flex gap-8 divide-x">
+        <div className="flex gap-8 divide-x dark:divide-neutral-700">
           <div className="flex flex-col gap-3 max-w-lg">
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
@@ -93,7 +93,7 @@ export default function Home() {
                 I want to share this photo I created with you all. I hope you
                 like it! 🏝️ 🌈
               </span>
-              <span className="text-[#01376b] block mt-2">
+              <span className="text-[#01376b] dark:text-neutral-50 block mt-2">
                 #film #filmphotography #filmisnotdead #analog #analogphotography
                 #istillshootfilm #grainisgood
               </span>
@@ -108,7 +108,7 @@ export default function Home() {
         <p>
           © 2023 Instagram Framer. Made By{' '}
           <a
-            className="text-neutral-500"
+            className="text-neutral-500 dark:text-white"
             href="https://twitter.com/ShalvaGegia"
             target="_blank"
           >
