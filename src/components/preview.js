@@ -22,10 +22,6 @@ function Preview({ image }, ref) {
   }, [image.scale])
 
   function onMouseMove(e) {
-    console.log(
-      '🚀 ~ file: preview.js:26 ~ onMouseMove ~ dragStartX:',
-      dragStartX,
-    )
     if (!dragStartX || !dragStartY) return
 
     const imageBounds = imageRef.current.getBoundingClientRect()
@@ -55,7 +51,6 @@ function Preview({ image }, ref) {
   }
 
   function onDragStart(e) {
-    console.log('onDragStart')
     setDragStartX(e.clientX)
     setDragStartY(e.clientY)
   }
@@ -81,7 +76,7 @@ function Preview({ image }, ref) {
   return (
     <div
       id={`canvas-${image.id}`}
-      className="min-w-full min-h-full flex justify-center"
+      className="min-w-full min-h-full flex justify-center transition-all duration-75"
       ref={ref}
       style={{
         background: image.bgColor,
@@ -91,7 +86,7 @@ function Preview({ image }, ref) {
       <div
         className={classnames(
           'flex justify-center items-center',
-          'w-full h-full max-w-full max-h-full overflow-hidden relative transition-all',
+          'w-full h-full max-w-full max-h-full overflow-hidden relative transition-all duration-75',
         )}
         onMouseDown={onMouseDown}
         ref={containerRef}
@@ -111,6 +106,7 @@ function Preview({ image }, ref) {
             maxHeight: image.objectFit === 'contain' ? '100%' : undefined,
           }}
           alt="Instagram post preview"
+          className="transition-transform duration-75"
         />
       </div>
     </div>

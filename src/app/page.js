@@ -64,7 +64,7 @@ export default function Home() {
             <div
               className={classnames(
                 'w-[512px] rounded overflow-hidden',
-                'border dark:border-neutral-700',
+                'border dark:border-neutral-700 transition-all',
                 !selectedImage?.ratio && 'h-[512px]',
                 selectedImage?.ratio === '1:1' && 'h-[512px]',
                 selectedImage?.ratio === '4:5' && 'h-[640px]',
