@@ -59,7 +59,7 @@ export default function Carousel() {
             className="w-6 h-6 rounded-full flex justify-center items-center shadow-lg bg-white bg-opacity-90 opacity-50 transition-opacity group-hover:opacity-100"
             onClick={selectPrevImage}
           >
-            <PiCaretLeftBold className="w-4" />
+            <PiCaretLeftBold className="w-4 text-black" />
           </button>
         </div>
       )}
@@ -70,7 +70,7 @@ export default function Carousel() {
             className="w-6 h-6 rounded-full flex justify-center items-center shadow-lg bg-white bg-opacity-90 opacity-50 transition-opacity group-hover:opacity-100"
             onClick={selectNextImage}
           >
-            <PiCaretRightBold className="w-4" />
+            <PiCaretRightBold className="w-4 text-black" />
           </button>
         </div>
       )}
