@@ -177,20 +177,22 @@ export default function Settings() {
 
       <div className="flex items-center gap-2" onClick={() => resetImage(id)}>
         <LuRotateCcw className="w-6 h-6" />
-        <Label>Reset to defaults</Label>
+        <Label className="cursor-pointer">Reset to defaults</Label>
       </div>
 
       {images.length == 1 && (
         <div className="flex items-center gap-2" onClick={onDownload}>
           <LuDownload className="w-6 h-6" />
-          <Label>{isDownloading ? 'Downloading...' : 'Download'}</Label>
+          <Label className="cursor-pointer">
+            {isDownloading ? 'Downloading...' : 'Download'}
+          </Label>
         </div>
       )}
 
       {images.length > 1 && (
         <div className="flex items-center gap-2" onClick={onDownloadZip}>
           <LuDownload className="w-6 h-6" />
-          <Label>
+          <Label className="cursor-pointer">
             {isDownloading ? 'Archiving...' : 'Download all images (zip)'}
           </Label>
         </div>

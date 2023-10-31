@@ -87,7 +87,9 @@ export default function Post() {
           onClick={onDownload}
         >
           {!!selectedImage && (
-            <Label>{isDownloading ? 'Downloading...' : 'Download'}</Label>
+            <Label className={classnames(!!selectedImage && 'cursor-pointer')}>
+              {isDownloading ? 'Downloading...' : 'Download'}
+            </Label>
           )}
           <LuBookmark className="w-6 h-6" />
         </div>
