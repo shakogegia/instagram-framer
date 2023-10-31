@@ -55,7 +55,7 @@ export default function Settings() {
 
       <div className="flex flex-col gap-2">
         <Label onDoubleClick={() => resetSetting(id, 'ratio')}>
-          Aspect Ration
+          Aspect Ratio
         </Label>
         <div className="flex gap-2">
           <Button
