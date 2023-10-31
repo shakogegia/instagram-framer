@@ -1,4 +1,4 @@
-import * as htmlToImage from 'html-to-image'
+import html2canvas from 'html2canvas'
 
 export default function download(image) {
   return new Promise((resolve, reject) => {
@@ -6,20 +6,13 @@ export default function download(image) {
 
     var node = document.getElementById(id)
 
-    htmlToImage
-      .toPng(node)
-      .then(function (dataUrl) {
-        const link = document.createElement('a')
-        link.href = dataUrl
-        link.download = `framed-image-${new Date().toLocaleDateString()}.png`
-        link.click()
-        console.log('saved')
-      })
-      .catch(function (error) {
-        console.error('oops, something went wrong!', error)
-      })
-      .finally(() => {
-        resolve()
-      })
+    html2canvas(node).then((canvas) => {
+      var dataUrl = canvas.toDataURL('image/png')
+      const link = document.createElement('a')
+      link.href = dataUrl
+      link.download = `framed-image-${new Date().toLocaleDateString()}.png`
+      link.click()
+      resolve()
+    })
   })
 }
