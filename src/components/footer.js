@@ -22,8 +22,8 @@ export default function Footer() {
         className="mt-2"
       >
         <img
-          height="36"
-          style={{ border: '0px', height: '36px' }}
+          height="28"
+          style={{ border: '0px', height: '28px' }}
           src="https://storage.ko-fi.com/cdn/kofi5.png?v=3"
           border="0"
           alt="Buy Me a Coffee at ko-fi.com"
