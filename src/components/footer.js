@@ -5,7 +5,7 @@ export default function Footer() {
         © 2023 Instagram Framer. Made By{' '}
         <a
           className="text-neutral-500 dark:text-white"
-          href="https://twitter.com/ShalvaGegia"
+          href="https://gegia.dev"
           target="_blank"
         >
           Gego
