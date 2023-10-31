@@ -44,14 +44,16 @@ export default function Settings() {
 
   return (
     <div className="flex flex-col gap-6 pl-8">
-      <div className="flex gap-4">
-        <Checkbox
-          id={id + 'Sync'}
-          label="Sync Settings Across Images"
-          checked={syncSettings}
-          onChange={() => updateSyncSettings(!syncSettings)}
-        />
-      </div>
+      {images.length > 1 && (
+        <div className="flex gap-4">
+          <Checkbox
+            id={id + 'Sync'}
+            label="Sync Settings Across Images"
+            checked={syncSettings}
+            onChange={() => updateSyncSettings(!syncSettings)}
+          />
+        </div>
+      )}
 
       <div className="flex flex-col gap-2">
         <Label onDoubleClick={() => resetSetting(id, 'ratio')}>
