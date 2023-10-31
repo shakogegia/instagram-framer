@@ -5,6 +5,14 @@ import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
 
+export const metadata = {
+  title: 'Instagram Framer',
+  description: 'Upload your images and get a ready-to-post Instagram post.',
+  keywords: 'instagram, post, frame, image, upload',
+  image: '/meta.png',
+  url: 'https://www.instagram-framer.app',
+}
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
