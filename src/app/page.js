@@ -11,7 +11,7 @@ const seo = {
   description: 'Upload your images and get a ready-to-post Instagram post.',
   keywords: 'instagram, post, frame, image, upload',
   image: '/meta.png',
-  // url: 'https://instagram-framer.vercel.app',
+  url: 'https://instagram-framer.app',
 }
 
 const twitterUsername = '@ShalvaGegia'
