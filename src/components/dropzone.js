@@ -1,12 +1,12 @@
 'use client'
-import { useImages } from '@/providers/images-provider'
+import { useStore } from '@/providers/store-provider'
 import classnames from 'classnames'
 import { useCallback, useState } from 'react'
 import { useDropzone } from 'react-dropzone'
 
 export default function Dropzone() {
   const [isLoading, setIsLoading] = useState(false)
-  const { setImages } = useImages()
+  const { setImages } = useStore()
 
   const onDrop = useCallback(
     async (acceptedFiles) => {

@@ -1,8 +1,8 @@
 'use client'
-import { useImages } from '@/providers/images-provider'
+import { useStore } from '@/providers/store-provider'
+import classnames from 'classnames'
 import { useEffect, useRef } from 'react'
 import { PiCaretLeftBold, PiCaretRightBold } from 'react-icons/pi'
-import classnames from 'classnames'
 import Preview from './preview'
 
 export default function Carousel() {
@@ -15,7 +15,7 @@ export default function Carousel() {
     selectNextImage,
     selectImage,
     selectedIndex,
-  } = useImages()
+  } = useStore()
 
   const canSelectPrevImage = images.length > 1 && selectedIndex > 0
   const canSelectNextImage =

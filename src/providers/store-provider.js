@@ -1,7 +1,6 @@
 'use client'
 import { v4 as uuidv4 } from 'uuid'
 import { createContext, useContext, useMemo, useState } from 'react'
-import { useEffect } from 'react'
 
 const defaultSettings = {
   padding: 50,
@@ -16,11 +15,11 @@ const defaultSettings = {
   scaleY: 1,
 }
 
-const ImagesContext = createContext([])
+const StoreContext = createContext([])
 
-export const useImages = () => useContext(ImagesContext)
+export const useStore = () => useContext(StoreContext)
 
-export const ImagesProvider = ({ children }) => {
+export const StoreProvider = ({ children }) => {
   const [store, setStore] = useState([])
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [syncSettings, setSyncSettings] = useState(false)
@@ -68,6 +67,19 @@ export const ImagesProvider = ({ children }) => {
     setStore(newStore)
   }
 
+  const resetSetting = (id, key, value) => {
+    const newStore = store.map((image) => {
+      if (image.id === id || syncSettings) {
+        return {
+          ...image,
+          [key]: defaultSettings[key],
+        }
+      }
+      return image
+    })
+    setStore(newStore)
+  }
+
   const setImages = (images) => {
     setStore(
       images.map((image) => ({
@@ -106,11 +118,12 @@ export const ImagesProvider = ({ children }) => {
     selectImage,
     syncSettings,
     updateSyncSettings,
+    resetSetting,
   }
 
   return (
-    <ImagesContext.Provider value={contextValue}>
+    <StoreContext.Provider value={contextValue}>
       {children}
-    </ImagesContext.Provider>
+    </StoreContext.Provider>
   )
 }

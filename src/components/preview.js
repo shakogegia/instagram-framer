@@ -1,11 +1,11 @@
 /* eslint-disable @next/next/no-img-element */
 'use client'
-import { useImages } from '@/providers/images-provider'
+import { useImages, useStore } from '@/providers/store-provider'
 import { forwardRef, useEffect, useRef, useState } from 'react'
 import classnames from 'classnames'
 
 function Preview({ image }, ref) {
-  const { images } = useImages()
+  const { images } = useStore()
 
   const imageRef = useRef(null)
   const containerRef = useRef(null)

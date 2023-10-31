@@ -1,28 +1,39 @@
 'use client'
-import { useImages } from '@/providers/images-provider'
-import ColorPicker from './colorpicker'
-import Slider from './slider'
-import Label from './label'
-import Checkbox from './checkbox'
-import Button from './button'
-import Select from './select'
-import { LuDownload, LuRotateCcw } from 'react-icons/lu'
-import download from '@/utils/download'
+import { useStore } from '@/providers/store-provider'
+import { download, downloadZip } from '@/utils/download'
 import { useState } from 'react'
+import { LuDownload, LuRotateCcw, LuCopyCheck } from 'react-icons/lu'
+import Button from './button'
+import Checkbox from './checkbox'
+import ColorPicker from './colorpicker'
+import Label from './label'
+import Select from './select'
+import Slider from './slider'
 
 export default function Settings() {
   const {
+    images,
     selectedImage,
     updateImage,
     resetImage,
     syncSettings,
     updateSyncSettings,
-  } = useImages()
+    resetSetting,
+  } = useStore()
   const [isDownloading, setIsDownloading] = useState(false)
 
   const onDownload = () => {
+    if (isDownloading) return
     setIsDownloading(true)
     download(selectedImage).finally(() => {
+      setIsDownloading(false)
+    })
+  }
+
+  const onDownloadZip = () => {
+    if (isDownloading) return
+    setIsDownloading(true)
+    downloadZip(images).finally(() => {
       setIsDownloading(false)
     })
   }
@@ -35,7 +46,7 @@ export default function Settings() {
     <div className="flex flex-col gap-6 pl-8">
       <div className="flex gap-4">
         <Checkbox
-          id="Sync"
+          id={id + 'Sync'}
           label="Sync Settings Across Images"
           checked={syncSettings}
           onChange={() => updateSyncSettings(!syncSettings)}
@@ -43,7 +54,9 @@ export default function Settings() {
       </div>
 
       <div className="flex flex-col gap-2">
-        <Label>Format</Label>
+        <Label onDoubleClick={() => resetSetting(id, 'ratio')}>
+          Aspect Ration
+        </Label>
         <div className="flex gap-2">
           <Button
             onClick={() => updateImage(id, 'ratio', '1:1')}
@@ -72,25 +85,20 @@ export default function Settings() {
         </div>
       </div>
 
-      <div className="flex flex-col gap-2">
-        <Label>Image fit</Label>
-        <div className="flex gap-2">
-          <Button
-            onClick={() => updateImage(id, 'objectFit', 'contain')}
-            isActive={selectedImage.objectFit === 'contain'}
-          >
-            Contain
-          </Button>
-          <Button
-            onClick={() => updateImage(id, 'objectFit', 'cover')}
-            isActive={selectedImage.objectFit === 'cover'}
-          >
-            Cover
-          </Button>
-        </div>
-      </div>
+      <Select
+        id={id + 'objectFit'}
+        label="Image fit"
+        options={[
+          { title: 'Contain', value: 'contain' },
+          { title: 'Cover', value: 'cover' },
+        ]}
+        defaultValue={selectedImage.objectFit}
+        value={selectedImage.objectFit}
+        onChange={(e) => updateImage(id, 'objectFit', e.target.value)}
+      />
 
       <Select
+        id={id + 'Rotate'}
         label="Rotate"
         options={[
           { title: '0°', value: 0 },
@@ -99,12 +107,13 @@ export default function Settings() {
           { title: '270°', value: 270 },
         ]}
         defaultValue={selectedImage.rotate}
+        value={selectedImage.rotate}
         onChange={(e) => updateImage(id, 'rotate', e.target.value)}
       />
 
       <div className="flex gap-4">
         <Checkbox
-          id="Horizontal"
+          id={id + 'Horizontal'}
           label="Flip Horizontal"
           checked={selectedImage.scaleX === -1}
           onChange={() =>
@@ -112,7 +121,7 @@ export default function Settings() {
           }
         />
         <Checkbox
-          id="Vertical"
+          id={id + 'Vertical'}
           label="Flip Vertical"
           checked={selectedImage.scaleY === -1}
           onChange={() =>
@@ -122,40 +131,45 @@ export default function Settings() {
       </div>
 
       <Slider
-        id="padding"
+        id={id + 'padding'}
         label="Padding"
         min={0}
         max={100}
-        defaultValue={selectedImage.padding}
+        value={selectedImage.padding}
         onChange={(e) => updateImage(id, 'padding', e.target.value)}
+        onReset={() => resetSetting(id, 'padding')}
       />
 
       <Slider
-        id="zoom"
+        id={id + 'zoom'}
         label="Zoom"
         min={1}
         max={5}
         step={0.1}
-        defaultValue={selectedImage.scale}
+        value={selectedImage.scale}
         onChange={(e) => updateImage(id, 'scale', e.target.value)}
+        onReset={() => resetSetting(id, 'scale')}
       />
 
       <Slider
-        id="border"
-        label="Border"
+        id={id + 'border'}
+        label="Stroke"
         min={0}
         max={20}
-        defaultValue={selectedImage.border}
+        value={selectedImage.border}
         onChange={(e) => updateImage(id, 'border', e.target.value)}
+        onReset={() => resetSetting(id, 'border')}
       />
 
       <ColorPicker
-        label="Border Color"
+        id={id + 'borderColor'}
+        label="Stroke Color"
         value={selectedImage.borderColor}
         onChange={(e) => updateImage(id, 'borderColor', e.target.value)}
       />
 
       <ColorPicker
+        id={id + 'bgColor'}
         label="Background Fill"
         value={selectedImage.bgColor}
         onChange={(e) => updateImage(id, 'bgColor', e.target.value)}
@@ -166,10 +180,21 @@ export default function Settings() {
         <Label>Reset to defaults</Label>
       </div>
 
-      <div className="flex items-center gap-2" onClick={onDownload}>
-        <LuDownload className="w-6 h-6" />
-        <Label>{isDownloading ? 'Downloading...' : 'Download'}</Label>
-      </div>
+      {images.length == 1 && (
+        <div className="flex items-center gap-2" onClick={onDownload}>
+          <LuDownload className="w-6 h-6" />
+          <Label>{isDownloading ? 'Downloading...' : 'Download'}</Label>
+        </div>
+      )}
+
+      {images.length > 1 && (
+        <div className="flex items-center gap-2" onClick={onDownloadZip}>
+          <LuDownload className="w-6 h-6" />
+          <Label>
+            {isDownloading ? 'Archiving...' : 'Download all images (zip)'}
+          </Label>
+        </div>
+      )}
     </div>
   )
 }
