@@ -6,12 +6,18 @@ import Label from './label'
 import Checkbox from './checkbox'
 import Button from './button'
 import Select from './select'
-import { LuDownload } from 'react-icons/lu'
+import { LuDownload, LuRotateCcw } from 'react-icons/lu'
 import download from '@/utils/download'
 import { useState } from 'react'
 
 export default function Settings() {
-  const { selectedImage, updateImage } = useImages()
+  const {
+    selectedImage,
+    updateImage,
+    resetImage,
+    syncSettings,
+    updateSyncSettings,
+  } = useImages()
   const [isDownloading, setIsDownloading] = useState(false)
 
   const onDownload = () => {
@@ -27,6 +33,15 @@ export default function Settings() {
 
   return (
     <div className="flex flex-col gap-6 pl-8">
+      <div className="flex gap-4">
+        <Checkbox
+          id="Sync"
+          label="Sync Settings Across Images"
+          checked={syncSettings}
+          onChange={() => updateSyncSettings(!syncSettings)}
+        />
+      </div>
+
       <div className="flex flex-col gap-2">
         <Label>Format</Label>
         <div className="flex gap-2">
@@ -47,6 +62,12 @@ export default function Settings() {
             isActive={selectedImage.ratio === '16:9'}
           >
             16:9
+          </Button>
+          <Button
+            onClick={() => updateImage(id, 'ratio', '2:3')}
+            isActive={selectedImage.ratio === '2:3'}
+          >
+            2:3
           </Button>
         </div>
       </div>
@@ -140,12 +161,10 @@ export default function Settings() {
         onChange={(e) => updateImage(id, 'bgColor', e.target.value)}
       />
 
-      {/* <div className='flex gap-2'>
-        <Button onClick={() => download(id)} className="flex items-center gap-4">
-          <BsCloudDownload />
-          <p className="flex-1 text-center">Download</p>
-        </Button>
-      </div> */}
+      <div className="flex items-center gap-2" onClick={() => resetImage(id)}>
+        <LuRotateCcw className="w-6 h-6" />
+        <Label>Reset to defaults</Label>
+      </div>
 
       <div className="flex items-center gap-2" onClick={onDownload}>
         <LuDownload className="w-6 h-6" />

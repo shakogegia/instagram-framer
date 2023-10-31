@@ -1,6 +1,7 @@
 'use client'
 import { v4 as uuidv4 } from 'uuid'
 import { createContext, useContext, useMemo, useState } from 'react'
+import { useEffect } from 'react'
 
 const defaultSettings = {
   padding: 50,
@@ -22,6 +23,7 @@ export const useImages = () => useContext(ImagesContext)
 export const ImagesProvider = ({ children }) => {
   const [store, setStore] = useState([])
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const [syncSettings, setSyncSettings] = useState(false)
 
   const selectedImage = useMemo(
     () => store[selectedIndex],
@@ -40,9 +42,22 @@ export const ImagesProvider = ({ children }) => {
     )
   }
 
-  const updateImage = (id, key, value) => {
+  const resetImage = (id) => {
     const newStore = store.map((image) => {
       if (image.id === id) {
+        return {
+          ...image,
+          ...defaultSettings,
+        }
+      }
+      return image
+    })
+    setStore(newStore)
+  }
+
+  const updateImage = (id, key, value) => {
+    const newStore = store.map((image) => {
+      if (image.id === id || syncSettings) {
         return {
           ...image,
           [key]: value,
@@ -67,15 +82,30 @@ export const ImagesProvider = ({ children }) => {
     setSelectedIndex(index)
   }
 
+  const updateSyncSettings = (value) => {
+    setSyncSettings(value)
+    if (value) {
+      const { id, image, ...settings } = selectedImage
+      const newStore = store.map((image) => ({
+        ...image,
+        ...settings,
+      }))
+      setStore(newStore)
+    }
+  }
+
   const contextValue = {
     images: store,
     updateImage,
     setImages,
+    resetImage,
     selectedIndex,
     selectedImage,
     selectPrevImage,
     selectNextImage,
     selectImage,
+    syncSettings,
+    updateSyncSettings,
   }
 
   return (

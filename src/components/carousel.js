@@ -7,6 +7,7 @@ import Preview from './preview'
 
 export default function Carousel() {
   const imageRefs = useRef([])
+  const containerRef = useRef(null)
 
   const {
     images,
@@ -21,14 +22,19 @@ export default function Carousel() {
     images.length > 1 && selectedIndex < images.length - 1
 
   useEffect(() => {
-    imageRefs.current[selectedIndex].scrollIntoView({
-      behavior: 'smooth',
+    requestAnimationFrame(() => {
+      const scrollLeft =
+        imageRefs.current[selectedIndex].scrollWidth * selectedIndex
+      containerRef.current.scrollTo({
+        left: scrollLeft,
+        behavior: 'smooth',
+      })
     })
   }, [selectedIndex])
 
   return (
     <div className="h-full relative group">
-      <div className="w-full h-full flex overflow-hidden">
+      <div className="w-full h-full flex overflow-hidden" ref={containerRef}>
         {images.map((item) => (
           <Preview
             ref={(el) => imageRefs.current.push(el)}

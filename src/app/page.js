@@ -69,6 +69,7 @@ export default function Home() {
                 selectedImage?.ratio === '1:1' && 'h-[512px]',
                 selectedImage?.ratio === '4:5' && 'h-[640px]',
                 selectedImage?.ratio === '16:9' && 'h-[288px]',
+                selectedImage?.ratio === '2:3' && 'h-[768px]',
               )}
             >
               {images.length > 0 ? <Carousel /> : <Dropzone />}
