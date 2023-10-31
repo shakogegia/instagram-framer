@@ -53,7 +53,6 @@ export default function Dropzone() {
             viewBox="0 0 97.6 77.3"
             width="96"
           >
-            <title>Icon to represent media such as images or videos</title>
             <path
               d="M16.3 24h.3c2.8-.2 4.9-2.6 4.8-5.4-.2-2.8-2.6-4.9-5.4-4.8s-4.9 2.6-4.8 5.4c.1 2.7 2.4 4.8 5.1 4.8zm-2.4-7.2c.5-.6 1.3-1 2.1-1h.2c1.7 0 3.1 1.4 3.1 3.1 0 1.7-1.4 3.1-3.1 3.1-1.7 0-3.1-1.4-3.1-3.1 0-.8.3-1.5.8-2.1z"
               fill="currentColor"

@@ -25,11 +25,9 @@ export default function Home() {
         <title>Instagram Framer</title>
         <meta content="width=device-width, initial-scale=1" name="viewport" />
         <link rel="icon" href="/favicon.ico" />
-
         <meta name="description" content={seo.description} />
         <meta name="keywords" content={seo.keywords} />
         <meta name="image" content={seo.image} />
-
         {seo.url && <meta property="og:url" content={seo.url} />}
         {seo.title && <meta property="og:title" content={seo.title} />}
         {seo.description && (
