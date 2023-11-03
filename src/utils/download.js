@@ -2,25 +2,59 @@ import html2canvas from 'html2canvas'
 import JSZip from 'jszip'
 import { saveAs } from 'file-saver'
 
-function generateImage(image) {
+function generateImage(image, options = {}) {
   return new Promise((resolve, reject) => {
     const id = `canvas-${image.id}`
+
+    const original = document.getElementById(id)
+    const node = original.cloneNode(true)
+
+    const dpr = window.devicePixelRatio || 1
+
+    const originalWidth = original.clientWidth * dpr
+    // const originalHeight = original.clientHeight * dpr
+
+    let scale = 1
+
+    if (options.scale) {
+      scale = options.scale
+    } else if (options.width) {
+      scale = options.width / originalWidth
+    }
+
+    node.style.transform = `scale(${scale})`
+    node.style.zIndex = -1
+
+    original.after(node)
+
     var node = document.getElementById(id)
     html2canvas(node).then((canvas) => {
       resolve(canvas.toDataURL('image/png'))
     })
+    html2canvas(node)
+      .then((canvas) => {
+    })
+
+        node.remove()
+
+        resolve(canvas.toDataURL('image/png'))
+      })
+      .catch((error) => {
+        console.log(error)
+        reject(error)
+      })
   })
 }
 
-export async function download(image) {
-  const dataUrl = await generateImage(image)
+export async function download(image, options = {}) {
+  const dataUrl = await generateImage(image, options)
   saveAs(dataUrl, `framed-image-${new Date().toLocaleDateString()}.png`)
 }
 
-export function downloadZip(images) {
-  return new Promise(async (resolve, reject) => {
+export function downloadZip(images, options = {}) {
+  return new Promise(async (resolve) => {
     const dataUris = await Promise.all(
-      images.map((image) => generateImage(image)),
+      images.map((image) => generateImage(image, options)),
     )
 
     const zip = new JSZip()
