@@ -13,6 +13,7 @@ export const metadata = {
   keywords: 'instagram, post, frame, image, upload',
   image: '/meta.png',
   url: 'https://www.instagram-framer.app',
+  manifest: '/manifest.webmanifest',
 }
 
 export default function RootLayout({ children }) {
