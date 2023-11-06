@@ -160,16 +160,18 @@ export default function Settings() {
         onReset={() => resetSetting(id, 'padding')}
       />
 
-      <Slider
-        id={id + 'zoom'}
-        label="Zoom"
-        min={1}
-        max={5}
-        step={0.1}
-        value={selectedImage.scale}
-        onChange={(e) => updateImage(id, 'scale', e.target.value)}
-        onReset={() => resetSetting(id, 'scale')}
-      />
+      <div className="hidden md:block">
+        <Slider
+          id={id + 'zoom'}
+          label="Zoom"
+          min={1}
+          max={5}
+          step={0.1}
+          value={selectedImage.scale}
+          onChange={(e) => updateImage(id, 'scale', e.target.value)}
+          onReset={() => resetSetting(id, 'scale')}
+        />
+      </div>
 
       <Slider
         id={id + 'border'}
