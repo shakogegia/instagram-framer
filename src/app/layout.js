@@ -2,6 +2,8 @@ import { StoreProvider } from '@/providers/store-provider'
 import { Inter } from 'next/font/google'
 import Script from 'next/script'
 import './globals.css'
+import { SideBarContext, SideBarProvider } from '@/providers/sidebar-provider'
+import { Sidebar } from '@/components/sidebar'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -30,7 +32,12 @@ export default function RootLayout({ children }) {
             gtag('config', 'G-1KJJ787RMR');
             `}
         </Script>
-        <StoreProvider>{children}</StoreProvider>
+        <SideBarProvider>
+          <StoreProvider>
+            {children}
+            <Sidebar />
+          </StoreProvider>
+        </SideBarProvider>
       </body>
     </html>
   )

@@ -14,27 +14,21 @@ function generateImage(image, options = {}) {
     const originalWidth = original.clientWidth * dpr
     // const originalHeight = original.clientHeight * dpr
 
-    let scale = 1
+    let scale = image.downloadRes ? parseInt(image.downloadRes, 10) : 1
 
-    if (options.scale) {
-      scale = options.scale
-    } else if (options.width) {
-      scale = options.width / originalWidth
-    }
+    // if (options.scale) {
+    //   scale = options.scale
+    // } else if (options.width) {
+    //   scale = options.width / originalWidth
+    // }
 
     node.style.transform = `scale(${scale})`
     node.style.zIndex = -1
 
     original.after(node)
 
-    var node = document.getElementById(id)
-    html2canvas(node).then((canvas) => {
-      resolve(canvas.toDataURL('image/png'))
-    })
     html2canvas(node)
       .then((canvas) => {
-    })
-
         node.remove()
 
         resolve(canvas.toDataURL('image/png'))
@@ -48,7 +42,8 @@ function generateImage(image, options = {}) {
 
 export async function download(image, options = {}) {
   const dataUrl = await generateImage(image, options)
-  saveAs(dataUrl, `framed-image-${new Date().toLocaleDateString()}.png`)
+  const scale = image.downloadRes ? `@${image.downloadRes}x` : ''
+  saveAs(dataUrl, `framed-image-${new Date().toLocaleDateString()}${scale}.png`)
 }
 
 export function downloadZip(images, options = {}) {

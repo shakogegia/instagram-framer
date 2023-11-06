@@ -43,7 +43,7 @@ export default function Settings() {
   const { id } = selectedImage
 
   return (
-    <div className="flex flex-col gap-6 pl-8">
+    <div className="flex flex-col gap-6 md:pl-8">
       {images.length > 1 && (
         <div className="flex gap-4">
           <Checkbox
@@ -181,6 +181,21 @@ export default function Settings() {
         <LuRotateCcw className="w-6 h-6" />
         <Label className="cursor-pointer">Reset to defaults</Label>
       </div>
+
+      <Select
+        id={id + 'downloadRes'}
+        label="Download Resolution"
+        options={[
+          { title: '1x', value: 1 },
+          { title: '2x', value: 2 },
+          { title: '3x', value: 3 },
+          { title: '4x', value: 4 },
+          { title: '5x', value: 5 },
+        ]}
+        defaultValue={selectedImage.downloadRes}
+        value={selectedImage.downloadRes}
+        onChange={(e) => updateImage(id, 'downloadRes', e.target.value)}
+      />
 
       {images.length == 1 && (
         <div className="flex items-center gap-2" onClick={onDownload}>

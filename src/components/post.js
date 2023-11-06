@@ -10,9 +10,11 @@ import {
   LuMessageCircle,
   LuMoreHorizontal,
   LuSend,
+  LuSettings,
 } from 'react-icons/lu'
 import Label from './label'
 import { useState } from 'react'
+import { useSideBar } from '@/providers/sidebar-provider'
 
 const width = {
   xs: 320,
@@ -23,6 +25,7 @@ const width = {
 
 export default function Post() {
   const { images, selectedImage } = useStore()
+  const { setSideBar } = useSideBar()
   const [isDownloading, setIsDownloading] = useState(false)
 
   const onDownload = () => {
@@ -55,21 +58,27 @@ export default function Post() {
           </div>
         </div>
         <div>
-          <LuMoreHorizontal className="w-6 h-6" />
+          <LuMoreHorizontal className="w-6 h-6 hidden md:block" />
+          <LuSettings
+            className="w-6 h-6 md:hidden"
+            onClick={() => {
+              images.length > 0 && setSideBar(true)
+            }}
+          />
         </div>
       </div>
       <div
         className={classnames(
           'rounded overflow-hidden',
           'border dark:border-neutral-700 transition-all',
-          'w-[512px] rounded overflow-hidden',
+          'rounded overflow-hidden',
           'border dark:border-neutral-700 transition-all',
-          !selectedImage?.ratio && 'h-[512px]',
-          selectedImage?.ratio === '1:1' && 'h-[512px]',
-          selectedImage?.ratio === '4:5' && 'h-[640px]',
-          selectedImage?.ratio === '16:9' && 'h-[288px]',
-          selectedImage?.ratio === '2:3' && 'h-[768px]',
         )}
+        style={{
+          aspectRatio: selectedImage?.ratio
+            ? selectedImage.ratio.split(':').join('/')
+            : '1/1',
+        }}
       >
         {images.length > 0 ? <Carousel /> : <Dropzone />}
       </div>
