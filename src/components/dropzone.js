@@ -68,7 +68,8 @@ export default function Dropzone() {
           </svg>
           <p className="text-lg font-normal">Drag photos here</p>
           <button className="rounded-lg px-4 py-1.5 text-sm font-semibold text-white bg-[#0095f6] hover:bg-[#1a77f2]">
-            Select from computer
+            <span className="hidden md:block">Select from computer</span>
+            <span className="md:hidden">Select from phone</span>
           </button>
         </div>
       )}
