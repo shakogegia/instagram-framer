@@ -10,8 +10,6 @@ import Label from './label'
 import Select from './select'
 import Slider from './slider'
 
-const dpr = window.devicePixelRatio || 1
-
 export default function Settings() {
   const {
     images,
@@ -26,6 +24,7 @@ export default function Settings() {
   const downloadScaleOptions = useMemo(
     () =>
       [1, 2, 3, 4, 5].map((value) => {
+        const dpr = window.devicePixelRatio || 1
         if (!selectedImage.width) return { title: `${value}x`, value }
         const scale = value * dpr
         const width = scale * selectedImage.width
