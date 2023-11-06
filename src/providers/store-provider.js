@@ -13,7 +13,8 @@ const defaultSettings = {
   scale: 1,
   scaleX: 1,
   scaleY: 1,
-  downloadRes: 1,
+  downloadScale: 1,
+  width: null,
 }
 
 const StoreContext = createContext([])

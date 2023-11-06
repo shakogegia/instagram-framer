@@ -1,7 +1,7 @@
 'use client'
 import { useStore } from '@/providers/store-provider'
 import { download, downloadZip } from '@/utils/download'
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
 import { LuDownload, LuRotateCcw, LuCopyCheck } from 'react-icons/lu'
 import Button from './button'
 import Checkbox from './checkbox'
@@ -9,6 +9,8 @@ import ColorPicker from './colorpicker'
 import Label from './label'
 import Select from './select'
 import Slider from './slider'
+
+const dpr = window.devicePixelRatio || 1
 
 export default function Settings() {
   const {
@@ -21,6 +23,23 @@ export default function Settings() {
     resetSetting,
   } = useStore()
   const [isDownloading, setIsDownloading] = useState(false)
+  const downloadScaleOptions = useMemo(
+    () =>
+      [1, 2, 3, 4, 5].map((value) => {
+        if (!selectedImage.width) return { title: `${value}x`, value }
+        const scale = value * dpr
+        const width = scale * selectedImage.width
+        const ratio = selectedImage.ratio.split(':')
+        const height =
+          Math.round(
+            (selectedImage.width * parseInt(ratio[1], 10)) /
+              parseInt(ratio[0], 10),
+          ) * scale
+        const title = `${width}x${height}`
+        return { title, value }
+      }),
+    [selectedImage.ratio, selectedImage.width],
+  )
 
   const onDownload = () => {
     if (isDownloading) return
@@ -177,25 +196,19 @@ export default function Settings() {
         onChange={(e) => updateImage(id, 'bgColor', e.target.value)}
       />
 
+      <Select
+        id={id + 'downloadScale'}
+        label="Download Resolution"
+        options={downloadScaleOptions}
+        defaultValue={selectedImage.downloadScale}
+        value={selectedImage.downloadScale}
+        onChange={(e) => updateImage(id, 'downloadScale', e.target.value)}
+      />
+
       <div className="flex items-center gap-2" onClick={() => resetImage(id)}>
         <LuRotateCcw className="w-6 h-6" />
         <Label className="cursor-pointer">Reset to defaults</Label>
       </div>
-
-      <Select
-        id={id + 'downloadRes'}
-        label="Download Resolution"
-        options={[
-          { title: '1x', value: 1 },
-          { title: '2x', value: 2 },
-          { title: '3x', value: 3 },
-          { title: '4x', value: 4 },
-          { title: '5x', value: 5 },
-        ]}
-        defaultValue={selectedImage.downloadRes}
-        value={selectedImage.downloadRes}
-        onChange={(e) => updateImage(id, 'downloadRes', e.target.value)}
-      />
 
       {images.length == 1 && (
         <div className="flex items-center gap-2" onClick={onDownload}>

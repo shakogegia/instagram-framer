@@ -14,7 +14,7 @@ function generateImage(image, options = {}) {
     const originalWidth = original.clientWidth * dpr
     // const originalHeight = original.clientHeight * dpr
 
-    let scale = image.downloadRes ? parseInt(image.downloadRes, 10) : 1
+    let scale = image.downloadScale ? parseInt(image.downloadScale, 10) : 1
 
     // if (options.scale) {
     //   scale = options.scale
@@ -29,7 +29,7 @@ function generateImage(image, options = {}) {
 
     html2canvas(node)
       .then((canvas) => {
-        node.remove()
+        // node.remove()
 
         resolve(canvas.toDataURL('image/png'))
       })
@@ -42,7 +42,7 @@ function generateImage(image, options = {}) {
 
 export async function download(image, options = {}) {
   const dataUrl = await generateImage(image, options)
-  const scale = image.downloadRes ? `@${image.downloadRes}x` : ''
+  const scale = image.downloadScale ? `@${image.downloadScale}x` : ''
   saveAs(dataUrl, `framed-image-${new Date().toLocaleDateString()}${scale}.png`)
 }
 

@@ -8,12 +8,28 @@ import { useSideBar } from '@/providers/sidebar-provider'
 import { useStore } from '@/providers/store-provider'
 import classnames from 'classnames'
 import { motion } from 'framer-motion'
-import Head from 'next/head'
+import { useTheme } from 'next-themes'
+import { useEffect } from 'react'
 
 export default function Home() {
   const { images, selectedImage } = useStore()
   const { sideBar } = useSideBar()
   const { suggestInstall } = useSuggestInstall()
+  const { theme, systemTheme } = useTheme()
+
+  useEffect(() => {
+    const isDark = theme === 'dark' || systemTheme === 'dark'
+    const color = isDark ? '#000' : '#fff'
+    const meta = document.querySelector('meta[name="theme-color"]')
+    if (meta) {
+      meta.setAttribute('content', color)
+    } else {
+      const meta = document.createElement('meta')
+      meta.setAttribute('name', 'theme-color')
+      meta.setAttribute('content', color)
+      document.head.appendChild(meta)
+    }
+  }, [systemTheme, theme])
 
   return (
     <>

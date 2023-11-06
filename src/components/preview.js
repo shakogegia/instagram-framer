@@ -5,8 +5,9 @@ import { forwardRef, useEffect, useRef, useState } from 'react'
 import classnames from 'classnames'
 
 function Preview({ image }, ref) {
-  const { images } = useStore()
+  const { updateImage } = useStore()
 
+  const canvasRef = useRef(null)
   const imageRef = useRef(null)
   const containerRef = useRef(null)
 
@@ -20,6 +21,12 @@ function Preview({ image }, ref) {
     setX(0)
     setY(0)
   }, [image.scale])
+
+  useEffect(() => {
+    if (canvasRef.current) {
+      updateImage(image.id, 'width', canvasRef.current.offsetWidth)
+    }
+  }, [image.id])
 
   function onMouseMove(e) {
     if (!dragStartX || !dragStartY) return
@@ -77,7 +84,14 @@ function Preview({ image }, ref) {
     <div
       id={`canvas-${image.id}`}
       className="min-w-full min-h-full flex justify-center transition-all duration-75"
-      ref={ref}
+      ref={(node) => {
+        canvasRef.current = node
+        if (typeof ref === 'function') {
+          ref(node)
+        } else if (ref) {
+          ref.current = node
+        }
+      }}
       style={{
         background: image.bgColor,
         padding: `${image.padding}px`,
