@@ -10,7 +10,7 @@ export default function SuggestInstall({ title = 'Instagram Framer' }) {
           home Screen: Tap the
         </span>{' '}
         <IoShareOutline className="mx-1 w-5 h-5 text-blue-500 inline" />{' '}
-        <span>button and then</span>{' '}
+        <span>icon and then</span>{' '}
         <span className="ml-1 font-bold">Add to Home Screen</span>.
       </div>
     </div>
