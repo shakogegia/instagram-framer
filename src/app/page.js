@@ -26,7 +26,7 @@ export default function Home() {
         }}
         transition={{ type: 'spring', bounce: 0, duration: 0.4 }}
       >
-        <main className="flex flex-col min-h-screen bg-white dark:bg-black p-12">
+        <main className="flex flex-col min-h-screen bg-white dark:bg-black p-4 md:p-12">
           <div className="max-w-xl mx-auto w-full border-b dark:border-neutral-700 pb-8 mb-8">
             <div className="flex flex-col gap-2 mx-auto text-center">
               <h1 className="font-fsp text-3xl font-light">Instagram Framer</h1>

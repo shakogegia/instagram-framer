@@ -21,7 +21,7 @@ export function Sidebar() {
             }}
             transition={{ type: 'spring', bounce: 0, duration: 0.2 }}
             onClick={() => setSideBar((sideBar) => !sideBar)}
-            className="bg-transparent px-5 fixed h-full w-full flex items-center justify-center top-0 left-0"
+            className="bg-transparent dark:bg-white dark:bg-opacity-80 px-5 fixed h-full w-full flex items-center justify-center top-0 left-0"
           />
           <motion.div
             initial={{ x: '100%' }}
@@ -32,7 +32,7 @@ export function Sidebar() {
               x: '100%',
             }}
             transition={{ type: 'spring', bounce: 0, duration: 0.4 }}
-            className="fixed bg-white dark:bg-black shadow-lg top-0 right-0 w-full max-w-sm h-screen p-5"
+            className="fixed bg-white dark:bg-neutral-900 shadow-lg top-0 right-0 w-full max-w-sm h-screen p-5"
           >
             {images.length > 0 && <Settings key={selectedImage?.id} />}
           </motion.div>
